@@ -6,6 +6,7 @@ import { FaEdit, FaTrashRestoreAlt  } from "react-icons/fa";
 const DisplayItems = () => {
     const [isItems, setIsItems] = useState([]);
     const [showForm, setShowForm] = useState(false);
+    const [checkedItems, setCheckedItems] = useState({});
     const [formItems, setFormItems] = useState({name:'', email:'', maggi:'', salt:'', rice:'', picture:''});
     console.log(formItems);
     console.log(isItems)
@@ -21,10 +22,10 @@ const DisplayItems = () => {
             </div>
             <div className='grid grid-cols-2 gap-7'>
                 {
-                    isItems.map((items)=>{
+                    isItems.map((items, cardIdx) => {
                         console.log('yooo items', items);
                         return(
-                            <div key={items.id} className='h-56 w-100 rounded shadow-2xl shadow-emerald-700 bg-white'>
+                            <div key={items.id} className='h-56 w-[600px] rounded shadow-2xl shadow-emerald-700 bg-white'>
                                 <div className='w-full bg-blue-300 h-8 flex items-center justify-between px-1'>
                                     <h3 className='text-gray-600 font-semibold'><span className='text-white font-semibold text-[20px] mr-1'>Name:</span>{items.name}</h3>
                                     <h3 className='text-gray-600 font-semibold'><span className='text-white font-semibold text-[20px] mr-1'>Email:</span>{items.email}</h3>
@@ -38,20 +39,31 @@ const DisplayItems = () => {
                                     </div>
                                 </div>
 
-                                <div className="flex gap-2 items-center p-1">
+                                <div className="flex gap-2 items-center justify-between py-1 px-3">
                                     {
-                                        items.items.map((item,index) => {
-                                            console.log('yooo pictire', item)
+                                        items.items.map((item, itemIdx) => {
+                                            const key = `${cardIdx}-${itemIdx}`;
+                                            console.log('yoo key', key)
                                             return (
-                                                <div className='image' key={index}>
+                                                <div className='image' key={itemIdx}>
                                                     <img className='w-40 h-32' src={item.picture} alt={item.itemName} />
-
-                                                    <div className='flex flex-col gap-1'>
-                                                        <span>ItemName:{item.itemName}</span> 
-                                                        <span>Price:{item.price}</span>
+                                                    <div className='flex gap-2'>
+                                                        <div className='mt-1'>
+                                                            <input
+                                                                type="checkbox"
+                                                                checked={!!checkedItems[key]}
+                                                                onChange={() => setCheckedItems(prev => ({
+                                                                    ...prev,
+                                                                    [key]: !prev[key]
+                                                                }))}
+                                                            />
+                                                        </div>
+                                                        <div className='flex flex-col gap-1'>
+                                                            <span className={checkedItems[key] ? 'text-blue-500 line-through' : ''}>ItemName:{item.itemName}</span>
+                                                            <span className={checkedItems[key] ? 'text-blue-500 line-through' : ''}>Price:{item.price}</span>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                
                                             )
                                         })
                                     }
