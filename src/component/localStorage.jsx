@@ -7,7 +7,7 @@ export const storeItems = (Tasks)=>{
 
 export const getItems = ()=>{
     const getter = localStorage.getItem('items');
-    return getter ? JSON.parse(getter) : 'justas coconut head';
+    return getter ? JSON.parse(getter) : [];
 }
 
 
@@ -115,4 +115,3 @@ const yoo = [
 }
 ];
 
-storeItems(yoo)
